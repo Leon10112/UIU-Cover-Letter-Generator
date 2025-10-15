@@ -1,162 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cover Page Generator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @media print {
-      body {
-        -webkit-print-color-adjust: exact;
-        margin: 0;
-      }
-      .form-section {
-        display: none;
-      }
-      #coverPage {
-        width: 210mm;
-        height: 297mm;
-        padding: 2cm;
-        box-sizing: border-box;
-      }
-    }
-    #coverPage {
-      width: 100%;
-      max-width: 210mm;
-      min-height: 297mm;
-      padding: 2cm;
-      box-sizing: border-box;
-      background-color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: start;
-      align-items: center;
-      border: 1px dashed #ccc;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assignment Cover Page Generator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-gray-100 flex flex-col items-center py-10 font-sans">
+<body>
+  <div class="container">
+    <h1>Assignment Cover Page Generator</h1>
 
-  <!-- Form Section -->
-  <div class="form-section bg-white p-6 rounded shadow-md w-full max-w-lg mb-10">
-    <h2 class="text-xl font-bold mb-4 text-center">Cover Page Generator</h2>
-    <div class="space-y-3">
-      <input type="file" id="logoUpload" accept="image/*" class="w-full border px-3 py-2 rounded">
-      <input type="text" id="university" placeholder="University Name" class="w-full border px-3 py-2 rounded">
-      <input type="color" id="universityColor" value="#B71C1C" class="w-full h-10 rounded">
-      <input type="text" id="assignmentTitle" placeholder="Assignment / Report Title" value="ASSIGNMENT" class="w-full border px-3 py-2 rounded">
-      <input type="text" id="courseName" placeholder="Course Name" class="w-full border px-3 py-2 rounded">
-      <input type="text" id="courseCode" placeholder="Course Code" class="w-full border px-3 py-2 rounded">
-      <input type="date" id="submissionDate" placeholder="Submission Date" class="w-full border px-3 py-2 rounded">
-      <input type="text" id="studentName" placeholder="Submitted By (Student Name)" class="w-full border px-3 py-2 rounded">
-      <input type="text" id="studentID" placeholder="Student ID" class="w-full border px-3 py-2 rounded">
-      <input type="text" id="section" placeholder="Section" class="w-full border px-3 py-2 rounded">
-      <input type="text" id="facultyName" placeholder="Submitted To (Faculty Name)" class="w-full border px-3 py-2 rounded">
-      <input type="text" id="position" placeholder="Faculty Position" class="w-full border px-3 py-2 rounded">
-      <input type="text" id="department" placeholder="Department Name" class="w-full border px-3 py-2 rounded">
+    <form id="coverForm">
+      <label>Student Name:</label>
+      <input type="text" id="studentName" required />
 
-      <button onclick="generateCover()" class="w-full bg-blue-700 text-white py-2 rounded hover:bg-blue-800 mt-2">
-        Generate Cover Page
-      </button>
+      <label>Student ID:</label>
+      <input type="text" id="studentId" required />
+
+      <label>Course Name:</label>
+      <input type="text" id="courseName" required />
+
+      <label>Course Code:</label>
+      <input type="text" id="courseCode" required />
+
+      <label>Section:</label>
+      <input type="text" id="section" />
+
+      <label>Teacher’s Name:</label>
+      <input type="text" id="teacherName" required />
+
+      <label>Submission Date:</label>
+      <input type="date" id="submissionDate" required />
+
+      <button type="submit">Generate Cover</button>
+    </form>
+
+    <div class="preview hidden" id="preview">
+      <div class="cover-page" id="coverPage">
+        <img src="logo.png" alt="University Logo" class="logo" />
+        <h2>United International University</h2>
+        <h3>Assignment Cover Page</h3>
+
+        <p><strong>Course Name:</strong> <span id="outCourseName"></span></p>
+        <p><strong>Course Code:</strong> <span id="outCourseCode"></span></p>
+        <p><strong>Section:</strong> <span id="outSection"></span></p>
+
+        <hr />
+
+        <p><strong>Submitted By:</strong></p>
+        <p><span id="outStudentName"></span> (<span id="outStudentId"></span>)</p>
+
+        <p><strong>Submitted To:</strong></p>
+        <p><span id="outTeacherName"></span></p>
+
+        <p><strong>Submission Date:</strong> <span id="outSubmissionDate"></span></p>
+      </div>
+
+      <div class="no-print">
+        <button onclick="window.print()">Print / Save PDF</button>
+        <button onclick="resetForm()">Back to Edit</button>
+      </div>
     </div>
   </div>
 
-  <!-- Cover Page Preview -->
-  <div id="coverPage" class="hidden text-center">
-    <!-- Logo -->
-    <div class="mb-4">
-      <img id="logoPreview" src="/mnt/data/abd53799-3e7f-434d-9e4d-54b965a607a4.png" alt="Logo" class="h-28 w-28 object-contain mx-auto">
-    </div>
-
-    <!-- University Name -->
-    <h1 id="universityText" class="text-2xl font-bold mb-4"></h1>
-
-    <!-- Assignment / Report Title -->
-    <h2 id="assignmentTitleText" class="text-xl font-semibold underline mb-8"></h2>
-
-    <!-- Course Info -->
-    <div class="mb-6 space-y-1">
-      <p><span class="font-semibold">Course Name:</span> <span id="courseNameText"></span></p>
-      <p><span class="font-semibold">Course Code:</span> <span id="courseCodeText"></span></p>
-      <p><span class="font-semibold">Submission Date:</span> <span id="submissionDateText"></span></p>
-    </div>
-
-    <!-- Student Info -->
-    <div class="mb-6 space-y-1 italic">
-      <p>Submitted by</p>
-      <p><span class="font-bold" id="studentNameText"></span></p>
-      <p>Student ID: <span class="font-bold" id="studentIDText"></span></p>
-      <p>Section: <span class="font-bold" id="sectionText"></span></p>
-    </div>
-
-    <!-- Faculty Info -->
-    <div class="mb-6 space-y-1 italic">
-      <p>Submitted to</p>
-      <p><span class="font-bold" id="facultyNameText"></span></p>
-      <p id="positionText"></p>
-      <p id="universityFooterText"></p>
-    </div>
-
-    <!-- Department Info at bottom -->
-    <div class="mt-auto mb-4 text-center italic">
-      <p><span id="departmentText"></span></p>
-    </div>
-
-    <!-- Print Button -->
-    <div class="mt-4">
-      <button onclick="window.print()" class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800">
-        Print / Save PDF
-      </button>
-    </div>
-  </div>
-
-  <script>
-    function generateCover() {
-      // Logo upload
-      const logoInput = document.getElementById('logoUpload');
-      const logoPreview = document.getElementById('logoPreview');
-      if (logoInput.files && logoInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          logoPreview.src = e.target.result;
-        }
-        reader.readAsDataURL(logoInput.files[0]);
-      }
-
-      // University Name + Color
-      const university = document.getElementById('university').value;
-      const universityColor = document.getElementById('universityColor').value;
-      const universityText = document.getElementById('universityText');
-      universityText.innerText = university;
-      universityText.style.color = universityColor;
-
-      // Assignment Title
-      document.getElementById('assignmentTitleText').innerText = document.getElementById('assignmentTitle').value;
-
-      // Course Info
-      document.getElementById('courseNameText').innerText = document.getElementById('courseName').value;
-      document.getElementById('courseCodeText').innerText = document.getElementById('courseCode').value;
-      document.getElementById('submissionDateText').innerText = document.getElementById('submissionDate').value;
-
-      // Student Info
-      document.getElementById('studentNameText').innerText = document.getElementById('studentName').value;
-      document.getElementById('studentIDText').innerText = document.getElementById('studentID').value;
-      document.getElementById('sectionText').innerText = document.getElementById('section').value;
-
-      // Faculty Info
-      document.getElementById('facultyNameText').innerText = document.getElementById('facultyName').value;
-      document.getElementById('positionText').innerText = document.getElementById('position').value;
-      document.getElementById('universityFooterText').innerText = university;
-
-      // Department Info
-      document.getElementById('departmentText').innerText = document.getElementById('department').value;
-
-      // Show cover page
-      document.getElementById('coverPage').classList.remove('hidden');
-      document.getElementById('coverPage').scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>

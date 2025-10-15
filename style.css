@@ -1,0 +1,155 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #1d3557;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background: #1d3557;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+button:hover {
+  background: #457b9d;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Cover Page */
+.cover-page {
+  width: 210mm;
+  height: 297mm;
+  background: white;
+  margin: auto;
+  padding: 60px;
+  text-align: center;
+  border: 2px solid #1d3557;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.logo {
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+.cover-page h2 {
+  color: #e63946;
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.cover-page h3 {
+  color: #1d3557;
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.cover-page p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+hr {
+  margin: 25px 0;
+  border: 0;
+  border-top: 1px solid #ccc;
+}
+
+.buttons {
+  text-align: center;
+  margin-top: 25px;
+}
+
+/* ✅ Print Fix */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #coverPage, #coverPage * {
+    visibility: visible;
+  }
+
+  #coverPage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 60px;
+    page-break-after: avoid;
+    overflow: hidden;
+  }
+
+  .buttons {
+    display: none !important;
+  }
+}
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* শুধু কভার পেজ প্রিন্ট হবে, নিচের বাটন লুকিয়ে যাবে */
+  .container {
+    box-shadow: none;
+    border: none;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 1in;
+  }
+}
