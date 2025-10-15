@@ -51,7 +51,7 @@ Designed for students who want accurate, well-formatted covers with zero effort 
 
 ## 🧠 Credits
 
-- **💡 Idea by:** Badrul Alam Leon  
+- **💡 Idea & Demo by:** Badrul Alam Leon  
 - **🛠️ Developed by:** InHuman  
 
 ---
