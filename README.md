@@ -25,7 +25,7 @@ Designed for students who want accurate, well-formatted covers with zero effort 
 ├── style.css    # All styling (print-ready)
 ├── script.js    # Form logic and PDF trigger
 └── logo.png     # University / custom logo (optional)
-
+```
 
 
 ---
