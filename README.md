@@ -18,12 +18,14 @@ Designed for students who want accurate, well-formatted covers with zero effort 
 
 ## 🧩 Project Structure
 
+```plaintext
 📁 Project Folder
 │
-├── index.html # Main HTML file
-├── style.css # All styling (print-ready)
-├── script.js # Form logic and PDF trigger
-└── logo.png # University / custom logo (optional)
+├── index.html   # Main HTML file
+├── style.css    # All styling (print-ready)
+├── script.js    # Form logic and PDF trigger
+└── logo.png     # University / custom logo (optional)
+
 
 
 ---
@@ -45,16 +47,7 @@ Designed for students who want accurate, well-formatted covers with zero effort 
 
 ---
 
-## 🌐 Live Hosting (Optional)
 
-To host your project online for free:
-
-1. Go to [Netlify](https://www.netlify.com/).  
-2. Sign in → **Add New Site → Deploy manually**.  
-3. Drag and drop your project folder.  
-4. Your website is live instantly!
-
----
 
 ## 🧠 Credits
 
