@@ -4,61 +4,117 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Assignment Cover Page Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <div class="container">
-    <h1>Assignment Cover Page Generator</h1>
+<body class="bg-gray-100">
 
-    <form id="coverForm">
-      <label>Student Name:</label>
-      <input type="text" id="studentName" required />
+  <!-- Form Section -->
+  <div class="max-w-2xl mx-auto bg-white p-6 mt-10 rounded-lg shadow-lg">
+    <h1 class="text-2xl font-bold text-center mb-4 text-blue-700">
+      Assignment Cover Page Generator
+    </h1>
+    
+    <form id="coverForm" class="space-y-3">
+      <label class="block">
+        <span class="text-sm">Assignment Title</span>
+        <input type="text" id="assignmentTitle" class="input" value="ASSIGNMENT" />
+      </label>
 
-      <label>Student ID:</label>
-      <input type="text" id="studentId" required />
-
-      <label>Course Name:</label>
-      <input type="text" id="courseName" required />
-
-      <label>Course Code:</label>
-      <input type="text" id="courseCode" required />
-
-      <label>Section:</label>
-      <input type="text" id="section" />
-
-      <label>Teacher’s Name:</label>
-      <input type="text" id="teacherName" required />
-
-      <label>Submission Date:</label>
-      <input type="date" id="submissionDate" required />
-
-      <button type="submit">Generate Cover</button>
-    </form>
-
-    <div class="preview hidden" id="preview">
-      <div class="cover-page" id="coverPage">
-        <img src="logo.png" alt="University Logo" class="logo" />
-        <h2>United International University</h2>
-        <h3>Assignment Cover Page</h3>
-
-        <p><strong>Course Name:</strong> <span id="outCourseName"></span></p>
-        <p><strong>Course Code:</strong> <span id="outCourseCode"></span></p>
-        <p><strong>Section:</strong> <span id="outSection"></span></p>
-
-        <hr />
-
-        <p><strong>Submitted By:</strong></p>
-        <p><span id="outStudentName"></span> (<span id="outStudentId"></span>)</p>
-
-        <p><strong>Submitted To:</strong></p>
-        <p><span id="outTeacherName"></span></p>
-
-        <p><strong>Submission Date:</strong> <span id="outSubmissionDate"></span></p>
+      <div class="grid grid-cols-2 gap-3">
+        <label>
+          <span class="text-sm">Course Name</span>
+          <input type="text" id="courseName" class="input" placeholder="Theory Of Computation" />
+        </label>
+        <label>
+          <span class="text-sm">Course Code</span>
+          <input type="text" id="courseCode" class="input" placeholder="CSE2233" />
+        </label>
       </div>
 
-      <div class="no-print">
-        <button onclick="window.print()">Print / Save PDF</button>
-        <button onclick="resetForm()">Back to Edit</button>
+      <label class="block">
+        <span class="text-sm">Submission Date</span>
+        <input type="date" id="submissionDate" class="input" />
+      </label>
+
+      <div class="grid grid-cols-2 gap-3">
+        <label>
+          <span class="text-sm">Student Name</span>
+          <input type="text" id="studentName" class="input" placeholder="Your Name" />
+        </label>
+        <label>
+          <span class="text-sm">Student ID</span>
+          <input type="text" id="studentId" class="input" placeholder="Student ID" />
+        </label>
+      </div>
+
+      <label class="block">
+        <span class="text-sm">Section</span>
+        <input type="text" id="section" class="input" placeholder="Section" />
+      </label>
+
+      <label class="block">
+        <span class="text-sm">Teacher Name</span>
+        <input type="text" id="teacherName" class="input" placeholder="Teacher Name" />
+      </label>
+
+      <label class="block">
+        <span class="text-sm">Teacher Position</span>
+        <input type="text" id="teacherPosition" class="input" placeholder="Lecturer" />
+      </label>
+
+      <label class="block">
+        <span class="text-sm">Department</span>
+        <input type="text" id="department" class="input" placeholder="Computer Science and Engineering" />
+      </label>
+
+      <!-- <label class="block">
+        <span class="text-sm">Upload Logo</span>
+        <input type="file" id="logoUpload" accept="image/*" class="w-full text-sm" />
+      </label> -->
+
+      <div class="flex justify-center gap-3 mt-4">
+        <button type="button" id="previewButton" class="btn-green">Preview</button>
+        <button type="button" id="printButton" class="btn-blue">Print / Save PDF</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Preview Section -->
+  <div id="coverPage" class="cover-page hidden">
+    <div class="border-2 border-gray-400 h-full flex flex-col justify-between p-10">
+      <div class="text-center">
+        <img id="logoPreview" src="logo.png" class="mx-auto mb-4 w-28" alt="Logo" />
+        <h1 class="text-3xl font-bold text-[#9e1d21]">United International University<span class="text-[#18457b]"></span></h1>
+      </div>
+
+      <div class="text-center mt-10">
+        <h2 id="displayAssignmentTitle" class="text-2xl font-bold underline">ASSIGNMENT</h2>
+      </div>
+
+      <div class="text-center space-y-1 mt-8 text-lg">
+        <p><strong>Course Name:</strong> <span id="displayCourseName"></span></p>
+        <p><strong>Course Code:</strong> <span id="displayCourseCode"></span></p>
+        <p><strong>Submission Date:</strong> <span id="displaySubmissionDate"></span></p>
+      </div>
+
+      <div class="mt-10 text-center text-lg space-y-2">
+        <p class="italic">Submitted by</p>
+        <p class="font-bold" id="displayStudentName"></p>
+        <p>Student ID: <span id="displayStudentId"></span></p>
+        <p>Section: <span id="displaySection"></span></p>
+      </div>
+
+      <div class="text-center mt-10 text-lg space-y-2">
+        <p class="italic">Submitted to</p>
+        <p class="font-bold" id="displayTeacherName"></p>
+        <p id="displayTeacherPosition"></p>
+        <p>United International University</p>
+      </div>
+
+      <div class="text-center mt-8 text-lg">
+        <p>Department of <span id="displayDepartment"></span></p>
+        <p class="font-semibold">United International University</p>
       </div>
     </div>
   </div>
